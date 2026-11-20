@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suara Pendidikan ID - Prototype Solusi & Empathy Map</title>
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #b91c1c; /* Merah Nusantara */
+            --secondary-color: #7f1d1d;
+            --accent-color: #d97706; /* Emas/Kuning hangat */
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --white: #ffffff;
+            --border-color: #cbd5e1;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #fde68a;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.95;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1100px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+        }
+
+        /* CARD GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border-top: 4px solid var(--primary-color);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+
+        /* EMPATHY MAP STYLING */
+        .empathy-wrapper {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            margin-bottom: 3.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .persona-header {
+            text-align: center;
+            background: #fef2f2;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px dashed var(--primary-color);
+        }
+
+        .empathy-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .empathy-box {
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .empathy-box h4 {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .empathy-box ul {
+            padding-left: 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        .empathy-box li {
+            margin-bottom: 0.4rem;
+        }
+
+        .says { background-color: #eff6ff; border-left: 4px solid #2563eb; }
+        .thinks { background-color: #f5f3ff; border-left: 4px solid #7c3aed; }
+        .does { background-color: #ecfdf5; border-left: 4px solid #059669; }
+        .feels { background-color: #fffbeb; border-left: 4px solid #d97706; }
+
+        .empathy-bottom {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        .pains { background-color: #fef2f2; border-left: 4px solid #dc2626; }
+        .gains { background-color: #f0fdf4; border-left: 4px solid #16a34a; }
+
+        /* INTERACTIVE BOX (TRACKER / CHECKLIST) */
+        .tracker-box {
+            background: var(--white);
+            padding: 1.75rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            margin-bottom: 3.5rem;
+        }
+
+        .progress-bar-bg {
+            background: #e2e8f0;
+            height: 22px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-bar-fill {
+            background: var(--accent-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* FORUM ASPIRASI */
+        .forum-input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .forum-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .forum-list li {
+            background: #f8fafc;
+            padding: 1rem;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            border-left-width: 4px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--text-dark);
+            color: var(--white);
+            margin-top: 2rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            nav a {
+                margin: 0 0.5rem;
+                font-size: 0.9rem;
+            }
+            .empathy-grid, .empathy-bottom {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="logo">SuaraPendidikan.ID</div>
+        <nav>
+            <a href="#masalah">Akar Masalah</a>
+            <a href="#empathy">Empathy Map</a>
+            <a href="#indikator">Indikator Solusi</a>
+            <a href="#studi-kasus">Realita Lapangan</a>
+            <a href="#aspirasi">Ruang Aspirasi</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Melihat Lebih Dekat Wajah Pendidikan Indonesia</h1>
+        <p>Prototype analisis desain berbasis empati untuk memetakan kesenjangan akses, infrastruktur, dan relevansi kurikulum di berbagai pelosok Nusantara.</p>
+    </section>
+
+    <div class="container">
+
+        <!-- BAGIAN 1: IDENTIFIKASI PERMASALAHAN -->
+        <h2 class="section-title" id="masalah">1. Tiga Masalah Utama Pendidikan Kita</h2>
+        <p class="section-subtitle">Tantangan struktural yang masih menghambat pemerataan kualitas belajar di Indonesia</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Kesenjangan Infrastruktur & Digital</h3>
+                <p>Banyak sekolah di wilayah 3T (Tertinggal, Terdepan, Terluar) belum memiliki akses internet stabil, perangkat komputer memadai, bahkan ruang kelas yang layak.</p>
+            </div>
+            <div class="card">
+                <h3>Ketimpangan Kualitas & Kesejahteraan Guru</h3>
+                <p>Distribusi tenaga pendidik yang belum merata serta masih banyaknya guru honorer dengan kesejahteraan yang minim berdampak pada fokus pengajaran.</p>
+            </div>
+            <div class="card">
+                <h3>Kesenjangan Kurikulum vs Dunia Kerja</h3>
+                <p>Materi pembelajaran di sekolah sering kali tertinggal dari kebutuhan industri modern, membuat lulusan kesulitan bersaing saat memasuki dunia kerja.</p>
+            </div>
+        </div>
+
+        <!-- BAGIAN 2: EMPATHY MAP -->
+        <h2 class="section-title" id="empathy">2. Empathy Map (Design Thinking)</h2>
+        <p class="section-subtitle">Memahami sudut pandang pengguna secara mendalam sebelum merancang solusi pendidikan</p>
+        
+        <div class="empathy-wrapper">
+            <div class="persona-header">
+                <h3>Target Persona: Bima (16 Tahun) & Ibu Sari (Guru Honorer)</h3>
+                <p><strong>Konteks:</strong> Siswa dan pengajar di sekolah daerah pinggiran kabupaten dengan keterbatasan fasilitas praktik dan koneksi internet.</p>
+            </div>
+
+            <!-- 4 KUADRAN UTAMA -->
+            <div class="empathy-grid">
+                <div class="empathy-box says">
+                    <h4>💬 SAYS (Apa yang Dikatakan)</h4>
+                    <ul>
+                        <li>"Susah ikut pembelajaran daring karena sinyal di desa sering hilang."</li>
+                        <li>"Buku paket di perpustakaan jumlahnya terbatas dan sudah edisi lama."</li>
+                        <li>"Kami butuh praktik langsung, bukan hanya mencatat teori dari papan tulis."</li>
+                    </ul>
+                </div>
+
+                <div class="empathy-box thinks">
+                    <h4>💭 THINKS (Apa yang Dipikirkan)</h4>
+                    <ul>
+                        <li>"Apakah ilmuku cukup untuk bersaing dengan siswa di kota besar?"</li>
+                        <li>"Bagaimana cara mengajar materi teknologi kalau alat praktiknya saja tidak ada?"</li>
+                        <li>"Jangan-jangan setelah lulus nanti aku tetap sulit mencari pekerjaan."</li>
+                    </ul>
+                </div>
+
+                <div class="empathy-box does">
+                    <h4>🏃 DOES (Apa yang Dilakukan)</h4>
+                    <ul>
+                        <li>Berbagi satu buku paket untuk 3–4 siswa di dalam satu meja.</li>
+                        <li>Mencari titik sinyal di luar rumah/bukit hanya untuk mengunduh materi tugas.</li>
+                        <li>Menggunakan alat seadanya untuk simulasi praktik pelajaran kejuruan/IPA.</li>
+                    </ul>
+                </div>
+
+                <div class="empathy-box feels">
+                    <h4>❤️ FEELS (Apa yang Dirasakan)</h4>
+                    <ul>
+                        <li><strong>Cemas & Tertinggal:</strong> Merasa tertinggal oleh perkembangan zaman dan teknologi.</li>
+                        <li><strong>Frustrasi:</strong> Semangat belajar tinggi, namun terbentur fasilitas dan biaya.</li>
+                        <li><strong>Berharap:</strong> Ingin mendapatkan kesempatan belajar yang adil dan setara.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PAINS & GAINS -->
+            <div class="empathy-bottom">
+                <div class="empathy-box pains">
+                    <h4>⚠️ PAINS (Hambatan & Ketakutan)</h4>
+                    <ul>
+                        <li>Keterbatasan kuota internet dan perangkat gawai/laptop.</li>
+                        <li>Kurangnya pelatihan teknologi terbaru bagi tenaga pendidik di daerah.</li>
+                        <li>Biaya transportasi dan perlengkapan sekolah yang memberatkan keluarga.</li>
+                    </ul>
+                </div>
+
+                <div class="empathy-box gains">
+                    <h4>🎯 GAINS (Harapan & Kebutuhan Solusi)</h4>
+                    <ul>
+                        <li>Akses modul pembelajaran <em>offline</em> (tanpa butuh internet terus-menerus).</li>
+                        <li>Pemerataan fasilitas laboratorium/praktik dan buku bacaan bermutu.</li>
+                        <li>Kurikulum yang adaptif, praktis, dan relevan dengan potensi daerah/industri.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 3: INDIKATOR PENYELESAIAN MASALAH (INTERAKTIF) -->
+        <h2 class="section-title" id="indikator">3. Simulasi Indikator Pemerataan Pendidikan</h2>
+        <p class="section-subtitle">Centang poin intervensi di bawah ini untuk melihat simulasi kesiapan ekosistem pendidikan ideal</p>
+        <div class="tracker-box">
+            <div style="margin-bottom: 1rem;">
+                <label style="display:block; margin-bottom:0.5rem; cursor:pointer;">
+                    <input type="checkbox" class="indikator-check" onclick="updateProgress()"> Penyediaan Modul Belajar Offline & Perpustakaan Digital Lokal
+                </label>
+                <label style="display:block; margin-bottom:0.5rem; cursor:pointer;">
+                    <input type="checkbox" class="indikator-check" onclick="updateProgress()"> Pelatihan Berkala & Kesejahteraan Layak bagi Guru Daerah
+                </label>
+                <label style="display:block; margin-bottom:0.5rem; cursor:pointer;">
+                    <input type="checkbox" class="indikator-check" onclick="updateProgress()"> Perbaikan Ruang Kelas & Fasilitas Praktik Dasar
+                </label>
+                <label style="display:block; margin-bottom:0.5rem; cursor:pointer;">
+                    <input type="checkbox" class="indikator-check" onclick="updateProgress()"> Penyelarasan Kurikulum dengan Kebutuhan Dunia Kerja & Kewirausahaan
+                </label>
+            </div>
+            <strong>Indeks Kesiapan Ekosistem Pendidikan: <span id="progress-text">0%</span></strong>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 4: POTRET REALITA LAPANGAN -->
+        <h2 class="section-title" id="studi-kasus">4. Potret Realita di Lapangan</h2>
+        <p class="section-subtitle">Contoh nyata tantangan yang sering ditemui di berbagai daerah</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Kasus 1: Sekolah di Wilayah Kepulauan</h3>
+                <p><strong>Tantangan:</strong> Distribusi buku ajar sering terlambat berbulan-bulan karena cuaca dan akses transportasi laut.</p>
+                <p style="margin-top:0.5rem;"><strong>Kebutuhan:</strong> Server lokal (intranet sekolah) berisi ribuan e-book dan video pembelajaran yang bisa diakses tanpa kuota internet.</p>
+            </div>
+            <div class="card">
+                <h3>Kasus 2: Lulusan Sekolah Menengah</h3>
+                <p><strong>Tantangan:</strong> Banyak lulusan bingung menentukan arah karier karena minimnya bimbingan minat bakat dan literasi keuangan/kerja.</p>
+                <p style="margin-top:0.5rem;"><strong>Kebutuhan:</strong> Program mentoring praktisi industri secara berkala dan kurikulum berbasis proyek nyata.</p>
+            </div>
+        </div>
+
+        <!-- BAGIAN 5: RUANG ASPIRASI & SOLUSI -->
+        <h2 class="section-title" id="aspirasi">5. Ruang Aspirasi & Usulan Solusi</h2>
+        <p class="section-subtitle">Tuliskan permasalahan pendidikan di sekitarmu atau ide solusi yang kamu tawarkan</p>
+        <div class="tracker-box">
+            <input type="text" id="nama-input" class="forum-input" placeholder="Nama / Peran (Contoh: Andi - Siswa / Ibu Rina - Guru)">
+            <input type="text" id="question-input" class="forum-input" placeholder="Tuliskan keluhan pendidikan di daerahmu atau ide solusinya...">
+            <button class="btn" onclick="addAspirasi()">Kirim Aspirasi</button>
+            <ul class="forum-list" id="forum-list">
+                <li>
+                    <strong>Dina (Mahasiswi Pendidikan):</strong> Perlu ada program relawan mengajar berbasis proyek selama liburan semester untuk sekolah-sekolah di pelosok.
+                </li>
+                <li>
+                    <strong>Pak Hendra (Guru SMK):</strong> Alat praktik di bengkel sekolah kami masih keluaran tahun 2005, sangat butuh pembaruan agar siswa siap kerja.
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 SuaraPendidikan.ID — Prototype Riset & Empathy Map Permasalahan Pendidikan Indonesia.</p>
+    </footer>
+
+    <!-- JAVASCRIPT UNTUK INTERAKTIVITAS -->
+    <script>
+        // JS Simulasi Indikator
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.indikator-check');
+            let checkedCount = 0;
+            checkboxes.forEach(box => {
+                if(box.checked) checkedCount++;
+            });
+            const percentage = Math.round((checkedCount / checkboxes.length) * 100);
+            
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-text').innerText = percentage + '%';
+        }
+
+        // JS Ruang Aspirasi
+        function addAspirasi() {
+            const namaInput = document.getElementById('nama-input');
+            const textInput = document.getElementById('question-input');
+            
+            const nama = namaInput.value.trim() || "Anonim";
+            const text = textInput.value.trim();
+            
+            if(text !== "") {
+                const ul = document.getElementById('forum-list');
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${nama}:</strong> ${text}`;
+                ul.prepend(li);
+                
+                namaInput.value = "";
+                textInput.value = "";
+            } else {
+                alert("Harap tuliskan aspirasi atau usulan solusi terlebih dahulu!");
+            }
+        }
+    </script>
+</body>
+</html>
